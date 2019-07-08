@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vispractice.vacp.deployment.service.dao.ServiceMapper">
+    <resultMap id="BaseResultMap" type="com.vispractice.vacp.deployment.service.domain.Service">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="UUID" property="uuid" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="DEPLOYMENT_ID" property="deploymentId" jdbcType="BIGINT"/>
+        <result column="IMAGE_ID" property="imageId" jdbcType="BIGINT"/>
+        <result column="IMAGE_TAG" property="imageTag" jdbcType="VARCHAR"/>
+        <result column="IMAGE_MARK" property="imageMark" jdbcType="VARCHAR"/>
+        <result column="AUTO_SCALE" property="autoScale" jdbcType="CHAR"/>
+        <result column="CPU_UTIL" property="cpuUtil" jdbcType="INTEGER"/>
+        <result column="MIN_ENGINES" property="minEngines" jdbcType="INTEGER"/>
+        <result column="MAX_ENGINES" property="maxEngines" jdbcType="INTEGER"/>
+        <result column="CPU" property="cpu" jdbcType="REAL"/>
+        <result column="MEM" property="mem" jdbcType="INTEGER"/>
+        <result column="COMMAND" property="command" jdbcType="VARCHAR"/>
+        <result column="POST_START" property="postStart" jdbcType="VARCHAR"/>
+        <result column="PRE_STOP" property="preStop" jdbcType="VARCHAR"/>
+        <result column="GR" property="gr" jdbcType="CHAR"/>
+        <result column="CMD_AGRS" property="cmdAgrs" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="BIGINT"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="BIGINT"/>
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="TIMESTAMP"/>
+        <result column="ENABLED_FLAG" property="enabledFlag" jdbcType="CHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        ID, UUID, NAME, CODE, DEPLOYMENT_ID, IMAGE_ID, IMAGE_TAG, IMAGE_MARK, AUTO_SCALE,
+        CPU_UTIL, MIN_ENGINES, MAX_ENGINES, CPU, MEM, COMMAND, POST_START, PRE_STOP, GR,
+        CMD_AGRS, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATED_DATE, ENABLED_FLAG
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.vispractice.vacp.deployment.service.domain.ServiceExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from service
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from service
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM service
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.vispractice.vacp.deployment.service.domain.ServiceExample">
+        delete from service
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.vispractice.vacp.deployment.service.domain.Service" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO service (UUID, NAME, CODE,
+                             DEPLOYMENT_ID, IMAGE_ID, IMAGE_TAG,
+                             IMAGE_MARK, AUTO_SCALE, CPU_UTIL,
+                             MIN_ENGINES, MAX_ENGINES, CPU,
+                             MEM, COMMAND, POST_START,
+                             PRE_STOP, GR, CMD_AGRS,
+                             CREATED_BY, CREATION_DATE, LAST_UPDATED_BY,
+                             LAST_UPDATED_DATE, ENABLED_FLAG)
+        VALUES (#{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+                                          #{deploymentId,jdbcType=BIGINT}, #{imageId,jdbcType=BIGINT},
+                                          #{imageTag,jdbcType=VARCHAR},
+                                          #{imageMark,jdbcType=VARCHAR}, #{autoScale,jdbcType=CHAR},
+                                          #{cpuUtil,jdbcType=INTEGER},
+                                          #{minEngines,jdbcType=INTEGER}, #{maxEngines,jdbcType=INTEGER},
+            #{cpu,jdbcType=REAL},
+            #{mem,jdbcType=INTEGER}, #{command,jdbcType=VARCHAR}, #{postStart,jdbcType=VARCHAR},
+            #{preStop,jdbcType=VARCHAR}, #{gr,jdbcType=CHAR}, #{cmdAgrs,jdbcType=VARCHAR},
+            #{createdBy,jdbcType=BIGINT}, #{creationDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=BIGINT},
+                #{lastUpdatedDate,jdbcType=TIMESTAMP}, #{enabledFlag,jdbcType=CHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.vispractice.vacp.deployment.service.domain.Service"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into service
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                UUID,
+            </if>
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="code != null">
+                CODE,
+            </if>
+            <if test="deploymentId != null">
+                DEPLOYMENT_ID,
+            </if>
+            <if test="imageId != null">
+                IMAGE_ID,
+            </if>
+            <if test="imageTag != null">
+                IMAGE_TAG,
+            </if>
+            <if test="imageMark != null">
+                IMAGE_MARK,
+            </if>
+            <if test="autoScale != null">
+                AUTO_SCALE,
+            </if>
+            <if test="cpuUtil != null">
+                CPU_UTIL,
+            </if>
+            <if test="minEngines != null">
+                MIN_ENGINES,
+            </if>
+            <if test="maxEngines != null">
+                MAX_ENGINES,
+            </if>
+            <if test="cpu != null">
+                CPU,
+            </if>
+            <if test="mem != null">
+                MEM,
+            </if>
+            <if test="command != null">
+                COMMAND,
+            </if>
+            <if test="postStart != null">
+                POST_START,
+            </if>
+            <if test="preStop != null">
+                PRE_STOP,
+            </if>
+            <if test="gr != null">
+                GR,
+            </if>
+            <if test="cmdAgrs != null">
+                CMD_AGRS,
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY,
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE,
+            </if>
+            <if test="lastUpdatedBy != null">
+                LAST_UPDATED_BY,
+            </if>
+            <if test="lastUpdatedDate != null">
+                LAST_UPDATED_DATE,
+            </if>
+            <if test="enabledFlag != null">
+                ENABLED_FLAG,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="deploymentId != null">
+                #{deploymentId,jdbcType=BIGINT},
+            </if>
+            <if test="imageId != null">
+                #{imageId,jdbcType=BIGINT},
+            </if>
+            <if test="imageTag != null">
+                #{imageTag,jdbcType=VARCHAR},
+            </if>
+            <if test="imageMark != null">
+                #{imageMark,jdbcType=VARCHAR},
+            </if>
+            <if test="autoScale != null">
+                #{autoScale,jdbcType=CHAR},
+            </if>
+            <if test="cpuUtil != null">
+                #{cpuUtil,jdbcType=INTEGER},
+            </if>
+            <if test="minEngines != null">
+                #{minEngines,jdbcType=INTEGER},
+            </if>
+            <if test="maxEngines != null">
+                #{maxEngines,jdbcType=INTEGER},
+            </if>
+            <if test="cpu != null">
+                #{cpu,jdbcType=REAL},
+            </if>
+            <if test="mem != null">
+                #{mem,jdbcType=INTEGER},
+            </if>
+            <if test="command != null">
+                #{command,jdbcType=VARCHAR},
+            </if>
+            <if test="postStart != null">
+                #{postStart,jdbcType=VARCHAR},
+            </if>
+            <if test="preStop != null">
+                #{preStop,jdbcType=VARCHAR},
+            </if>
+            <if test="gr != null">
+                #{gr,jdbcType=CHAR},
+            </if>
+            <if test="cmdAgrs != null">
+                #{cmdAgrs,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=BIGINT},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null">
+                #{lastUpdatedBy,jdbcType=BIGINT},
+            </if>
+            <if test="lastUpdatedDate != null">
+                #{lastUpdatedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabledFlag != null">
+                #{enabledFlag,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.vispractice.vacp.deployment.service.domain.ServiceExample"
+            resultType="java.lang.Integer">
+        select count(*) from service
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update service
+        <set>
+            <if test="record.id != null">
+                ID = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.uuid != null">
+                UUID = #{record.uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.name != null">
+                NAME = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.code != null">
+                CODE = #{record.code,jdbcType=VARCHAR},
+            </if>
+            <if test="record.deploymentId != null">
+                DEPLOYMENT_ID = #{record.deploymentId,jdbcType=BIGINT},
+            </if>
+            <if test="record.imageId != null">
+                IMAGE_ID = #{record.imageId,jdbcType=BIGINT},
+            </if>
+            <if test="record.imageTag != null">
+                IMAGE_TAG = #{record.imageTag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.imageMark != null">
+                IMAGE_MARK = #{record.imageMark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.autoScale != null">
+                AUTO_SCALE = #{record.autoScale,jdbcType=CHAR},
+            </if>
+            <if test="record.cpuUtil != null">
+                CPU_UTIL = #{record.cpuUtil,jdbcType=INTEGER},
+            </if>
+            <if test="record.minEngines != null">
+                MIN_ENGINES = #{record.minEngines,jdbcType=INTEGER},
+            </if>
+            <if test="record.maxEngines != null">
+                MAX_ENGINES = #{record.maxEngines,jdbcType=INTEGER},
+            </if>
+            <if test="record.cpu != null">
+                CPU = #{record.cpu,jdbcType=REAL},
+            </if>
+            <if test="record.mem != null">
+                MEM = #{record.mem,jdbcType=INTEGER},
+            </if>
+            <if test="record.command != null">
+                COMMAND = #{record.command,jdbcType=VARCHAR},
+            </if>
+            <if test="record.postStart != null">
+                POST_START = #{record.postStart,jdbcType=VARCHAR},
+            </if>
+            <if test="record.preStop != null">
+                PRE_STOP = #{record.preStop,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gr != null">
+                GR = #{record.gr,jdbcType=CHAR},
+            </if>
+            <if test="record.cmdAgrs != null">
+                CMD_AGRS = #{record.cmdAgrs,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createdBy != null">
+                CREATED_BY = #{record.createdBy,jdbcType=BIGINT},
+            </if>
+            <if test="record.creationDate != null">
+                CREATION_DATE = #{record.creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.lastUpdatedBy != null">
+                LAST_UPDATED_BY = #{record.lastUpdatedBy,jdbcType=BIGINT},
+            </if>
+            <if test="record.lastUpdatedDate != null">
+                LAST_UPDATED_DATE = #{record.lastUpdatedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.enabledFlag != null">
+                ENABLED_FLAG = #{record.enabledFlag,jdbcType=CHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update service
+        set ID = #{record.id,jdbcType=BIGINT},
+        UUID = #{record.uuid,jdbcType=VARCHAR},
+        NAME = #{record.name,jdbcType=VARCHAR},
+        CODE = #{record.code,jdbcType=VARCHAR},
+        DEPLOYMENT_ID = #{record.deploymentId,jdbcType=BIGINT},
+        IMAGE_ID = #{record.imageId,jdbcType=BIGINT},
+        IMAGE_TAG = #{record.imageTag,jdbcType=VARCHAR},
+        IMAGE_MARK = #{record.imageMark,jdbcType=VARCHAR},
+        AUTO_SCALE = #{record.autoScale,jdbcType=CHAR},
+        CPU_UTIL = #{record.cpuUtil,jdbcType=INTEGER},
+        MIN_ENGINES = #{record.minEngines,jdbcType=INTEGER},
+        MAX_ENGINES = #{record.maxEngines,jdbcType=INTEGER},
+        CPU = #{record.cpu,jdbcType=REAL},
+        MEM = #{record.mem,jdbcType=INTEGER},
+        COMMAND = #{record.command,jdbcType=VARCHAR},
+        POST_START = #{record.postStart,jdbcType=VARCHAR},
+        PRE_STOP = #{record.preStop,jdbcType=VARCHAR},
+        GR = #{record.gr,jdbcType=CHAR},
+        CMD_AGRS = #{record.cmdAgrs,jdbcType=VARCHAR},
+        CREATED_BY = #{record.createdBy,jdbcType=BIGINT},
+        CREATION_DATE = #{record.creationDate,jdbcType=TIMESTAMP},
+        LAST_UPDATED_BY = #{record.lastUpdatedBy,jdbcType=BIGINT},
+        LAST_UPDATED_DATE = #{record.lastUpdatedDate,jdbcType=TIMESTAMP},
+        ENABLED_FLAG = #{record.enabledFlag,jdbcType=CHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.vispractice.vacp.deployment.service.domain.Service">
+        update service
+        <set>
+            <if test="uuid != null">
+                UUID = #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                CODE = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="deploymentId != null">
+                DEPLOYMENT_ID = #{deploymentId,jdbcType=BIGINT},
+            </if>
+            <if test="imageId != null">
+                IMAGE_ID = #{imageId,jdbcType=BIGINT},
+            </if>
+            <if test="imageTag != null">
+                IMAGE_TAG = #{imageTag,jdbcType=VARCHAR},
+            </if>
+            <if test="imageMark != null">
+                IMAGE_MARK = #{imageMark,jdbcType=VARCHAR},
+            </if>
+            <if test="autoScale != null">
+                AUTO_SCALE = #{autoScale,jdbcType=CHAR},
+            </if>
+            <if test="cpuUtil != null">
+                CPU_UTIL = #{cpuUtil,jdbcType=INTEGER},
+            </if>
+            <if test="minEngines != null">
+                MIN_ENGINES = #{minEngines,jdbcType=INTEGER},
+            </if>
+            <if test="maxEngines != null">
+                MAX_ENGINES = #{maxEngines,jdbcType=INTEGER},
+            </if>
+            <if test="cpu != null">
+                CPU = #{cpu,jdbcType=REAL},
+            </if>
+            <if test="mem != null">
+                MEM = #{mem,jdbcType=INTEGER},
+            </if>
+            <if test="command != null">
+                COMMAND = #{command,jdbcType=VARCHAR},
+            </if>
+            <if test="postStart != null">
+                POST_START = #{postStart,jdbcType=VARCHAR},
+            </if>
+            <if test="preStop != null">
+                PRE_STOP = #{preStop,jdbcType=VARCHAR},
+            </if>
+            <if test="gr != null">
+                GR = #{gr,jdbcType=CHAR},
+            </if>
+            <if test="cmdAgrs != null">
+                CMD_AGRS = #{cmdAgrs,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY = #{createdBy,jdbcType=BIGINT},
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null">
+                LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=BIGINT},
+            </if>
+            <if test="lastUpdatedDate != null">
+                LAST_UPDATED_DATE = #{lastUpdatedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabledFlag != null">
+                ENABLED_FLAG = #{enabledFlag,jdbcType=CHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.vispractice.vacp.deployment.service.domain.Service">
+        UPDATE service
+        SET UUID              = #{uuid,jdbcType=VARCHAR},
+            NAME              = #{name,jdbcType=VARCHAR},
+            CODE              = #{code,jdbcType=VARCHAR},
+            DEPLOYMENT_ID     = #{deploymentId,jdbcType=BIGINT},
+            IMAGE_ID          = #{imageId,jdbcType=BIGINT},
+            IMAGE_TAG         = #{imageTag,jdbcType=VARCHAR},
+            IMAGE_MARK        = #{imageMark,jdbcType=VARCHAR},
+            AUTO_SCALE        = #{autoScale,jdbcType=CHAR},
+            CPU_UTIL          = #{cpuUtil,jdbcType=INTEGER},
+            MIN_ENGINES       = #{minEngines,jdbcType=INTEGER},
+            MAX_ENGINES       = #{maxEngines,jdbcType=INTEGER},
+            CPU               = #{cpu,jdbcType=REAL},
+            MEM               = #{mem,jdbcType=INTEGER},
+            COMMAND           = #{command,jdbcType=VARCHAR},
+            POST_START        = #{postStart,jdbcType=VARCHAR},
+            PRE_STOP          = #{preStop,jdbcType=VARCHAR},
+            GR                = #{gr,jdbcType=CHAR},
+            CMD_AGRS          = #{cmdAgrs,jdbcType=VARCHAR},
+            CREATED_BY        = #{createdBy,jdbcType=BIGINT},
+            CREATION_DATE     = #{creationDate,jdbcType=TIMESTAMP},
+            LAST_UPDATED_BY   = #{lastUpdatedBy,jdbcType=BIGINT},
+            LAST_UPDATED_DATE = #{lastUpdatedDate,jdbcType=TIMESTAMP},
+            ENABLED_FLAG      = #{enabledFlag,jdbcType=CHAR}
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

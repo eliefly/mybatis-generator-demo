@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vispractice.vacp.task.action.dao.IReleaseImageInstanceDao">
+    <resultMap id="BaseResultMap" type="com.vispractice.vacp.pipeline.domain.action.ReleaseImageInstance">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="RELEASE_IMAGE_ID" property="releaseImageId" jdbcType="BIGINT"/>
+        <result column="PIPELINE_INSTANCE_ID" property="pipelineInstanceId" jdbcType="BIGINT"/>
+        <result column="RELEASE_PLAN_INSTANCE_ID" property="releasePlanInstanceId" jdbcType="BIGINT"/>
+        <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="FINISH_TIME" property="finishTime" jdbcType="TIMESTAMP"/>
+        <result column="RESULT" property="result" jdbcType="VARCHAR"/>
+        <result column="DURATION" property="duration" jdbcType="BIGINT"/>
+        <result column="STATE" property="state" jdbcType="VARCHAR"/>
+        <result column="CURRENT" property="current" jdbcType="CHAR"/>
+        <result column="RELEASE" property="release" jdbcType="VARCHAR"/>
+        <result column="MARK" property="mark" jdbcType="VARCHAR"/>
+        <result column="EXECUTOR" property="executor" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        ID, RELEASE_IMAGE_ID, PIPELINE_INSTANCE_ID, RELEASE_PLAN_INSTANCE_ID, START_TIME,
+        FINISH_TIME, RESULT, DURATION, STATE, CURRENT, `RELEASE`, MARK, EXECUTOR
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.vispractice.vacp.pipeline.domain.action.ReleaseImageInstanceExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from release_image_instance
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from release_image_instance
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM release_image_instance
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample"
+            parameterType="com.vispractice.vacp.pipeline.domain.action.ReleaseImageInstanceExample">
+        delete from release_image_instance
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.vispractice.vacp.pipeline.domain.action.ReleaseImageInstance">
+        INSERT INTO release_image_instance (ID, RELEASE_IMAGE_ID, PIPELINE_INSTANCE_ID,
+                                            RELEASE_PLAN_INSTANCE_ID, START_TIME, FINISH_TIME,
+                                            RESULT, DURATION, STATE,
+                                            CURRENT, `RELEASE`, MARK,
+                                            EXECUTOR)
+        VALUES (#{id,jdbcType=BIGINT}, #{releaseImageId,jdbcType=BIGINT}, #{pipelineInstanceId,jdbcType=BIGINT},
+                                       #{releasePlanInstanceId,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP},
+                                       #{finishTime,jdbcType=TIMESTAMP},
+                                       #{result,jdbcType=VARCHAR}, #{duration,jdbcType=BIGINT},
+                                       #{state,jdbcType=VARCHAR},
+                                       #{current,jdbcType=CHAR}, #{release,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR},
+                #{executor,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.vispractice.vacp.pipeline.domain.action.ReleaseImageInstance">
+        insert into release_image_instance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="releaseImageId != null">
+                RELEASE_IMAGE_ID,
+            </if>
+            <if test="pipelineInstanceId != null">
+                PIPELINE_INSTANCE_ID,
+            </if>
+            <if test="releasePlanInstanceId != null">
+                RELEASE_PLAN_INSTANCE_ID,
+            </if>
+            <if test="startTime != null">
+                START_TIME,
+            </if>
+            <if test="finishTime != null">
+                FINISH_TIME,
+            </if>
+            <if test="result != null">
+                RESULT,
+            </if>
+            <if test="duration != null">
+                DURATION,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+            <if test="current != null">
+                CURRENT,
+            </if>
+            <if test="release != null">
+                `RELEASE`,
+            </if>
+            <if test="mark != null">
+                MARK,
+            </if>
+            <if test="executor != null">
+                EXECUTOR,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="releaseImageId != null">
+                #{releaseImageId,jdbcType=BIGINT},
+            </if>
+            <if test="pipelineInstanceId != null">
+                #{pipelineInstanceId,jdbcType=BIGINT},
+            </if>
+            <if test="releasePlanInstanceId != null">
+                #{releasePlanInstanceId,jdbcType=BIGINT},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="finishTime != null">
+                #{finishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="result != null">
+                #{result,jdbcType=VARCHAR},
+            </if>
+            <if test="duration != null">
+                #{duration,jdbcType=BIGINT},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="current != null">
+                #{current,jdbcType=CHAR},
+            </if>
+            <if test="release != null">
+                #{release,jdbcType=VARCHAR},
+            </if>
+            <if test="mark != null">
+                #{mark,jdbcType=VARCHAR},
+            </if>
+            <if test="executor != null">
+                #{executor,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.vispractice.vacp.pipeline.domain.action.ReleaseImageInstanceExample"
+            resultType="java.lang.Integer">
+        select count(*) from release_image_instance
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update release_image_instance
+        <set>
+            <if test="record.id != null">
+                ID = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.releaseImageId != null">
+                RELEASE_IMAGE_ID = #{record.releaseImageId,jdbcType=BIGINT},
+            </if>
+            <if test="record.pipelineInstanceId != null">
+                PIPELINE_INSTANCE_ID = #{record.pipelineInstanceId,jdbcType=BIGINT},
+            </if>
+            <if test="record.releasePlanInstanceId != null">
+                RELEASE_PLAN_INSTANCE_ID = #{record.releasePlanInstanceId,jdbcType=BIGINT},
+            </if>
+            <if test="record.startTime != null">
+                START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.finishTime != null">
+                FINISH_TIME = #{record.finishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.result != null">
+                RESULT = #{record.result,jdbcType=VARCHAR},
+            </if>
+            <if test="record.duration != null">
+                DURATION = #{record.duration,jdbcType=BIGINT},
+            </if>
+            <if test="record.state != null">
+                STATE = #{record.state,jdbcType=VARCHAR},
+            </if>
+            <if test="record.current != null">
+                CURRENT = #{record.current,jdbcType=CHAR},
+            </if>
+            <if test="record.release != null">
+                `RELEASE` = #{record.release,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mark != null">
+                MARK = #{record.mark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.executor != null">
+                EXECUTOR = #{record.executor,jdbcType=BIGINT},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update release_image_instance
+        set ID = #{record.id,jdbcType=BIGINT},
+        RELEASE_IMAGE_ID = #{record.releaseImageId,jdbcType=BIGINT},
+        PIPELINE_INSTANCE_ID = #{record.pipelineInstanceId,jdbcType=BIGINT},
+        RELEASE_PLAN_INSTANCE_ID = #{record.releasePlanInstanceId,jdbcType=BIGINT},
+        START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+        FINISH_TIME = #{record.finishTime,jdbcType=TIMESTAMP},
+        RESULT = #{record.result,jdbcType=VARCHAR},
+        DURATION = #{record.duration,jdbcType=BIGINT},
+        STATE = #{record.state,jdbcType=VARCHAR},
+        CURRENT = #{record.current,jdbcType=CHAR},
+        `RELEASE` = #{record.release,jdbcType=VARCHAR},
+        MARK = #{record.mark,jdbcType=VARCHAR},
+        EXECUTOR = #{record.executor,jdbcType=BIGINT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.vispractice.vacp.pipeline.domain.action.ReleaseImageInstance">
+        UPDATE release_image_instance
+        <set>
+            <if test="releaseImageId != null">
+                RELEASE_IMAGE_ID = #{releaseImageId,jdbcType=BIGINT},
+            </if>
+            <if test="pipelineInstanceId != null">
+                PIPELINE_INSTANCE_ID = #{pipelineInstanceId,jdbcType=BIGINT},
+            </if>
+            <if test="releasePlanInstanceId != null">
+                RELEASE_PLAN_INSTANCE_ID = #{releasePlanInstanceId,jdbcType=BIGINT},
+            </if>
+            <if test="startTime != null">
+                START_TIME = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="finishTime != null">
+                FINISH_TIME = #{finishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="result != null">
+                RESULT = #{result,jdbcType=VARCHAR},
+            </if>
+            <if test="duration != null">
+                DURATION = #{duration,jdbcType=BIGINT},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="current != null">
+                CURRENT = #{current,jdbcType=CHAR},
+            </if>
+            <if test="release != null">
+                `RELEASE` = #{release,jdbcType=VARCHAR},
+            </if>
+            <if test="mark != null">
+                MARK = #{mark,jdbcType=VARCHAR},
+            </if>
+            <if test="executor != null">
+                EXECUTOR = #{executor,jdbcType=BIGINT},
+            </if>
+        </set>
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.vispractice.vacp.pipeline.domain.action.ReleaseImageInstance">
+        UPDATE release_image_instance
+        SET RELEASE_IMAGE_ID         = #{releaseImageId,jdbcType=BIGINT},
+            PIPELINE_INSTANCE_ID     = #{pipelineInstanceId,jdbcType=BIGINT},
+            RELEASE_PLAN_INSTANCE_ID = #{releasePlanInstanceId,jdbcType=BIGINT},
+            START_TIME               = #{startTime,jdbcType=TIMESTAMP},
+            FINISH_TIME              = #{finishTime,jdbcType=TIMESTAMP},
+            RESULT                   = #{result,jdbcType=VARCHAR},
+            DURATION                 = #{duration,jdbcType=BIGINT},
+            STATE                    = #{state,jdbcType=VARCHAR},
+            CURRENT                  = #{current,jdbcType=CHAR},
+            `RELEASE`                = #{release,jdbcType=VARCHAR},
+            MARK                     = #{mark,jdbcType=VARCHAR},
+            EXECUTOR                 = #{executor,jdbcType=BIGINT}
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>
